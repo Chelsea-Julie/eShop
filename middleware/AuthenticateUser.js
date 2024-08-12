@@ -7,7 +7,7 @@ function createToken(user) {
         emailAdd: user.emailAdd,
         pwd: user.pwd
     },
-    process.env.JWT_SECRET, 
+    process.env.SECRET_KEY, 
     { 
         expiresIn: '1h' 
     }
