@@ -5,6 +5,7 @@ import {createToken} from './middleware/AuthenticateUser.js'
 import {compare, hash} from 'bcrypt'
 import bodyParser from 'body-parser'
 import { log } from 'console'
+import { user } from './model/index.js'
 // Create an express app
 const app = express()
 const port = +process.env.PORT || 4000
@@ -28,23 +29,7 @@ router.get('^/$|/eShop', (req, res) => {
     res.status(200).sendFile(path.resolve('./static/html/index.html'))
 })
 router.get('/Users|/eShop/Users', (req, res) => {
-    try {
-        const strQry = `
-        SELECT * 
-        FROM Users;`
-        db.query(strQry, (err, results) => {
-            if (err) throw new Error (`Unable to fetch all users`);
-            res.json({
-                status: res.statusCode,
-                results
-            })
-        })
-    } catch (e) {
-        res.json({
-            status: 404,
-            message: e.message 
-        })
-    }
+    user.fetchUsers(req, res)
 })
 router.get('*', (req, res) => {
     res.json({
