@@ -89,7 +89,6 @@ router.post('/register', async (req, res) => {
 
 )
 
-router.get('./')
 
 // update an existing user
 router.patch('/user/:id', async (req, res) => {
