@@ -29,3 +29,8 @@ userRouter.post('/register', (req, res) => {
 userRouter.post('/login', (req, res) => {
     user.loginUser(req, res)
 })
+
+export {
+    express,
+    userRouter
+}

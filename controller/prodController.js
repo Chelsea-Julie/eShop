@@ -33,6 +33,7 @@ productRouter.get('/recent', (req, res) => {
   })
 
 export {
+    express,
     productRouter
 }
 
