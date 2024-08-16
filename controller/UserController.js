@@ -1,7 +1,7 @@
 import express from 'express'
 import path from 'path'
 import bodyParser from 'body-parser'
-import { user } from '../model/index'
+import { user } from '../model/index.js'
 
 const userRouter = express.Router()
 
@@ -14,11 +14,11 @@ userRouter.get('/:id', (req, res) => {
     user.fetchOneUser(req, res)
 })
 
-userRouter.patch('/user/:id', (req, res) => {
+userRouter.patch('/:id', (req, res) => {
     user.updated(req, res)
 })
 
-userRouter.delete('/user/:id', (req, res) => {
+userRouter.delete('/:id', (req, res) => {
     user.deleteUser(req, res)
 })
 
