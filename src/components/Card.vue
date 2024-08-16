@@ -11,8 +11,8 @@
 
 <script>
 export default {
+    name: "cardComp",
     component: {
-        name: "cardComp",
     }
 }
 </script>
