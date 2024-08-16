@@ -31,49 +31,10 @@ router.get('^/$|/eShop', (req, res) => {
 router.get('/Users|/eShop/Users', (req, res) => {
     user.fetchUsers(req, res)
 })
-router.get('*', (req, res) => {
-    res.json({
-        status: 404,
-        message: 'Page not found'
-    })
+
+router.post('/register', (req, res) => {
+    user.registerUser(req, res)
 })
-
-router.post('/register', async (req, res) => {
-    try {
-        let data = req.body
-        data.pwd = await hash(data.pwd,12)
-            // payload
-            let user = {
-                emailAdd: data.emailAdd,
-                pwd: data.pwd
-            }
-            let strQry = `
-            INSERT INTO Users 
-             SET ?; 
-            `
-            db.query(strQry, [data], (err) => {
-                if (err) {
-                    res.json({
-                        status:res.statusCode,
-                        msg: 'This email address already exists'
-                    })
-                }   else {
-                    const token = createToken(user)
-                    res.json({
-                        token,
-                        msg:'You are now registered'
-                    })
-                }
-            })
-        
-    } catch (err) {
-        console.log(err);
-    }
-
-}
-
-)
-
 
 // update an existing user
 router.patch('/user/:id', async (req, res) => {
@@ -165,6 +126,123 @@ router.post('/login', (req, res) =>{
     } catch (e) {
         
     }
+})
+
+// products routes 
+
+router.get('/products', (req, res) => {
+    try {
+        const strQry = `
+        SELECT * 
+        FROM Products;`
+        db.query(strQry, (err, results) => {
+            if (err) throw new Error (`Unable to fetch all users`);
+            res.json({
+                status: res.statusCode,
+                results
+            })
+        })
+    } catch (e) {
+        res.json({
+            status: 404,
+            message: e.message 
+        })
+    }
+})
+
+router.post('/addProduct',  (req, res) => {
+    try {
+        let data = req.body
+        
+         
+            let strQry = `
+            INSERT INTO Products 
+            SET ?; 
+            `
+            db.query(strQry, [data], (err, result) => {
+                if (err) {
+                    res.json({
+                        status:res.statusCode,
+                        msg: 'This product already exist '
+                    })
+                }   else {
+                    res.json({
+                        status: res.statusCode,
+
+                        msg:'The product is now registered'
+                    })
+                }
+            })
+        
+    } catch (err) {
+        console.log(err);
+    }
+
+}
+
+)
+
+// getting one user
+
+
+router.get('/product/:id', (req, res) => {
+    try {
+        const {id} = req.params
+        const strQry = `SELECT * FROM Products WHERE productID = ${id};`
+
+        db.query(strQry, (err, results) => {
+            if (err) throw new Error (err);
+            res.json({
+                status: res.statusCode,
+                results
+            })
+        })
+    } catch (e) {
+        res.json({
+            status: 404,
+            message: e.message 
+        })
+    }
+}
+
+)
+
+router.patch('/product/:id', (req, res) => {
+    try {
+        let data = req.body
+        
+        const strQry = `
+        UPDATE Products
+        SET ?
+        WHERE productID = ${req.params.id}
+        `
+        db.query(strQry, [data], (err) => {
+
+            if (err) throw new Error (`Unable to update user}`);
+            res.json({
+                status: res.statusCode,
+                msg: 'User updated successfully'
+            })
+        })
+    } catch (e) {
+        res.json({
+            staus:400,
+            msg:e.message
+        })
+    }
+})
+
+
+
+
+
+
+
+router.get('*', (req, res) => {
+    res.json({
+        status: 404,
+        message: 'Page not found'
+    })
 })
 
 app.listen(port, () => {
