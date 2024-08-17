@@ -84,7 +84,7 @@ class Products {
         } catch {
             res.json({
                 status: 404,
-                msg: e.message
+                err: e.message
             })
         }
     
@@ -107,7 +107,7 @@ class Products {
     } catch (e) {
         res.json({
             status: 404,
-            msg: e.message
+            err: e.message
         })
     }
     }
@@ -128,7 +128,7 @@ class Products {
         } catch {
             res.json({
                 status: 404,
-                msg: e.message
+                err: e.message
             })
         }
 
