@@ -1,6 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import { verifyToken } from '../middleware/AuthenticateUser.js';
+// import { verifyToken } from '../middleware/AuthenticateUser.js';
 
 import { Products } from '../model/Products.js';
 
@@ -8,27 +8,27 @@ const productRouter = express.Router ()
 
 productRouter.use(bodyParser.json())
 
-productRouter.get('/', verifyToken, (req, res) => {
+productRouter.get('/', (req, res) => {
   Products.fetchProducts(req, res)
 })
 
-productRouter.get('/recent', (req, res) => {
+productRouter.get('/Recent', (req, res) => {
     Products.recentProducts(req, res)
   })
 
-  productRouter.get('/;id', verifyToken, (req, res) => {
+  productRouter.get('/:id', (req, res) => {
     Products.fetchOneProduct(req, res)
   })
 
-  productRouter.post('/add', verifyToken, (req, res) => {
+  productRouter.post('/add', (req, res) => {
     Products.addProduct(req, res)
   })
 
-  productRouter.patch('/:id', verifyToken, (req, res) => {
+  productRouter.patch('/:id', (req, res) => {
     Products.updateProduct(req, res)
   })
 
-  productRouter.delete('/:id', verifyToken, (req, res) => {
+  productRouter.delete('/:id', (req, res) => {
     Products.deleteProduct(req, res)
   })
 
